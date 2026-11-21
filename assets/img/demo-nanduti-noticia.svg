@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" fill="none">
+  <rect width="800" height="450" fill="#0B1F3A" />
+  <circle cx="400" cy="225" r="160" stroke="#C8A04B" stroke-width="2.5" stroke-dasharray="6, 6" opacity="0.6" />
+  <circle cx="400" cy="225" r="110" stroke="#E5CC86" stroke-width="2" opacity="0.8" />
+  <circle cx="400" cy="225" r="60" stroke="#C8A04B" stroke-width="2" />
+  <circle cx="400" cy="225" r="20" fill="#C8A04B" />
+  <line x1="200" y1="225" x2="600" y2="225" stroke="#E5CC86" stroke-width="1.5" />
+  <line x1="400" y1="50" x2="400" y2="400" stroke="#E5CC86" stroke-width="1.5" />
+  <rect x="50" y="360" width="700" height="60" rx="8" fill="#102A4C" opacity="0.9" />
+  <text x="400" y="396" text-anchor="middle" fill="#FFFFFF" font-family="'Cinzel', serif" font-size="20" font-weight="bold">ARTE Y PATRIMONIO DEL ÑANDUTÍ · ITAUGUÁ</text>
+</svg>
+

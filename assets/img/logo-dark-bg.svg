@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 90" width="460" height="90" fill="none">
+  <!-- Símbolo Radial Ñandutí & Comunicación -->
+  <g transform="translate(10, 5)">
+    <!-- Círculo concéntrico exterior de ñandutí -->
+    <circle cx="40" cy="40" r="36" stroke="#C8A04B" stroke-width="1.8" stroke-dasharray="3, 3" opacity="0.8" />
+    <circle cx="40" cy="40" r="28" stroke="#E5CC86" stroke-width="1.2" opacity="0.6" />
+    <circle cx="40" cy="40" r="18" stroke="#C8A04B" stroke-width="1.5" />
+    <circle cx="40" cy="40" r="7" fill="#C8A04B" />
+
+    <!-- Rayos radiales entrelazados (Hilos del ñandutí) -->
+    <path d="M 40 4 L 40 76 M 4 40 L 76 40" stroke="#E5CC86" stroke-width="1.5" />
+    <path d="M 14.5 14.5 L 65.5 65.5 M 14.5 65.5 L 65.5 14.5" stroke="#C8A04B" stroke-width="1.2" />
+    <path d="M 22 8 L 58 72 M 8 22 L 72 58 M 8 58 L 72 22 M 22 72 L 58 8" stroke="#E5CC86" stroke-width="0.8" opacity="0.6" />
+
+    <!-- Nodos de tejido (Voces conectadas) -->
+    <circle cx="40" cy="12" r="2.5" fill="#E5CC86" />
+    <circle cx="40" cy="68" r="2.5" fill="#E5CC86" />
+    <circle cx="12" cy="40" r="2.5" fill="#E5CC86" />
+    <circle cx="68" cy="40" r="2.5" fill="#E5CC86" />
+    <circle cx="20" cy="20" r="2.2" fill="#C8A04B" />
+    <circle cx="60" cy="60" r="2.2" fill="#C8A04B" />
+    <circle cx="20" cy="60" r="2.2" fill="#C8A04B" />
+    <circle cx="60" cy="20" r="2.2" fill="#C8A04B" />
+  </g>
+
+  <!-- Tipografía Editorial -->
+  <text x="102" y="44" font-family="'Cinzel', 'Playfair Display', 'Georgia', serif" font-size="27" font-weight="700" fill="#FFFFFF" letter-spacing="0.5">
+    TEJIENDO <tspan fill="#C8A04B">HISTORIAS</tspan>
+  </text>
+  <text x="104" y="66" font-family="'Inter', 'Montserrat', -apple-system, sans-serif" font-size="10.5" font-weight="500" fill="#E5CC86" letter-spacing="2.2">
+    PORTAL DIGITAL · ITAUGUÁ, PARAGUAY
+  </text>
+  <line x1="104" y1="74" x2="380" y2="74" stroke="#C8A04B" stroke-width="0.8" stroke-dasharray="4, 4" opacity="0.5" />
+</svg>
+

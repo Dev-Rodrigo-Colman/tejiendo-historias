@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" fill="none">
+  <rect width="800" height="500" fill="#0B1F3A" />
+  <circle cx="400" cy="250" r="180" stroke="#C8A04B" stroke-width="2" stroke-dasharray="8, 8" />
+  <circle cx="400" cy="250" r="130" stroke="#E5CC86" stroke-width="1.5" />
+  <circle cx="400" cy="250" r="80" stroke="#C8A04B" stroke-width="2" />
+  <circle cx="400" cy="250" r="25" fill="#C8A04B" />
+  <line x1="150" y1="250" x2="650" y2="250" stroke="#E5CC86" stroke-width="1.5" />
+  <line x1="400" y1="50" x2="400" y2="450" stroke="#E5CC86" stroke-width="1.5" />
+  <text x="400" y="470" text-anchor="middle" fill="#FFFFFF" font-family="'Cinzel', serif" font-size="18" font-weight="bold">HISTORIA VIVA DEL ÑANDUTÍ EN ITAUGUÁ</text>
+</svg>
+

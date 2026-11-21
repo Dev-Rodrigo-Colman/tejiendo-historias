@@ -1,0 +1,16 @@
+# Configuración de Servidor Apache / XAMPP para Tejiendo Historias
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /tejiendo-historias/
+
+    # Si la petición apunta a la API y el archivo no existe físicamente, pasar a api/index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^api/(.*)$ api/index.php [QSA,L]
+
+    # Prevenir acceso a archivos de base de datos y configuraciones sensibles
+    <FilesMatch "\.(sqlite|sql|env|ini|log)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+

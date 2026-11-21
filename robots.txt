@@ -1,0 +1,9 @@
+# Robots.txt para Tejiendo Historias - Itauguá, Paraguay
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /api/
+Disallow: /database/
+
+# Sitemap de indexación SEO
+Sitemap: http://localhost:8000/sitemap.xml

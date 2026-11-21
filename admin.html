@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Administrativo · Tejiendo Historias - Itauguá</title>
+  
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Fuentes Tipográficas Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              DEFAULT: '#0B1F3A',
+              dark: '#071527',
+              light: '#14335C'
+            },
+            deep: {
+              DEFAULT: '#102A4C',
+              dark: '#0A1C33',
+              light: '#1B4174'
+            },
+            gold: {
+              DEFAULT: '#C8A04B',
+              light: '#E5CC86',
+              dark: '#A67D2E'
+            },
+            lightgray: '#F4F6F8'
+          },
+          fontFamily: {
+            serif: ['Cinzel', 'Playfair Display', 'Georgia', 'serif'],
+            sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="assets/css/custom.css">
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased flex h-screen overflow-hidden">
+
+  <!-- SIDEBAR DEL PANEL ADMINISTRATIVO -->
+  <aside id="admin-sidebar" class="w-64 bg-navy text-white flex flex-col justify-between border-r-2 border-gold/40 z-30 transition-all shrink-0">
+    <div>
+      <!-- Cabecera de Marca -->
+      <div class="p-5 border-b border-gold/20 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-2" title="Volver al portal público">
+          <img src="assets/img/logo-dark-bg.svg" alt="Tejiendo Historias" class="h-10 w-auto" />
+        </a>
+      </div>
+
+      <!-- Perfil de Usuario Activo en Sesión -->
+      <div class="p-4 mx-3 my-4 rounded-2xl bg-deep border border-gold/30">
+        <div class="flex items-center gap-3">
+          <img id="user-avatar" src="assets/img/author-elena.svg" alt="Usuario" class="w-10 h-10 rounded-full border border-gold" />
+          <div class="min-w-0">
+            <span id="user-name" class="text-xs font-bold text-white block truncate">Lic. Elena González</span>
+            <span id="user-role" class="text-[10px] font-semibold text-gold-light uppercase tracking-wider block">Rol: Editor / Redactor</span>
+          </div>
+        </div>
+        <!-- Selector rápido de rol para simulación y pruebas -->
+        <div class="mt-3 pt-2 border-t border-slate-700/60 flex items-center justify-between text-[10px]">
+          <span class="text-slate-400">Rol Activo:</span>
+          <select id="role-selector" onchange="window.switchRole(this.value)" class="bg-navy text-gold-light border border-gold/40 rounded px-1.5 py-0.5 text-[10px] focus:outline-none">
+            <option value="admin">Administrador</option>
+            <option value="editor" selected>Editor</option>
+            <option value="periodista">Periodista</option>
+            <option value="comercial">Comercial</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Menú de Módulos Administrativos -->
+      <nav class="px-3 space-y-1 text-xs font-semibold">
+        <button onclick="window.loadModule('dashboard')" data-tab="dashboard" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left bg-gold text-navy font-bold shadow-sm transition-colors">
+          <span>📊</span>
+          <span>Dashboard Principal</span>
+        </button>
+
+        <button onclick="window.loadModule('noticias')" data-tab="noticias" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-slate-300 hover:bg-navy-light hover:text-gold transition-colors">
+          <span>📰</span>
+          <span>Noticias & Artículos</span>
+        </button>
+
+        <button onclick="window.loadModule('autores')" data-tab="autores" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-slate-300 hover:bg-navy-light hover:text-gold transition-colors">
+          <span>✍️</span>
+          <span>Autores (Elena & Rodrigo)</span>
+        </button>
+
+        <button onclick="window.loadModule('radios')" data-tab="radios" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-slate-300 hover:bg-navy-light hover:text-gold transition-colors">
+          <span>📻</span>
+          <span>Radios de Itauguá</span>
+        </button>
+
+        <button onclick="window.loadModule('negocios')" data-tab="negocios" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-slate-300 hover:bg-navy-light hover:text-gold transition-colors">
+          <span>🏪</span>
+          <span>Directorio de Negocios</span>
+        </button>
+
+        <button onclick="window.loadModule('publicidad')" data-tab="publicidad" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-slate-300 hover:bg-navy-light hover:text-gold transition-colors">
+          <span>📢</span>
+          <span>Publicidad & Anunciantes</span>
+        </button>
+
+        <button onclick="window.loadModule('eventos')" data-tab="eventos" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-slate-300 hover:bg-navy-light hover:text-gold transition-colors">
+          <span>📅</span>
+          <span>Agenda de Eventos</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Pie del Sidebar -->
+    <div class="p-4 border-t border-gold/20 text-xs">
+      <a href="index.html" class="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-deep hover:bg-navy-light text-gold-light border border-gold/30 font-bold transition-colors">
+        <span>🌐 Ver Portal Público</span>
+      </a>
+      <p class="text-[10px] text-slate-500 text-center mt-3">Tejiendo Historias v1.0 · Itauguá</p>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL DEL BACK OFFICE -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+    
+    <!-- Topbar del Admin -->
+    <header class="bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-3">
+        <h1 id="module-title" class="text-lg font-serif font-bold text-navy">Dashboard General</h1>
+        <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 font-semibold">Itauguá, Central</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <span class="text-xs text-slate-500 hidden sm:inline">Motor: SQLite 3 / PDO</span>
+        <button onclick="window.openLoginModal()" class="px-3 py-1.5 rounded-lg border border-gold/60 text-navy hover:bg-gold hover:text-navy text-xs font-bold transition-colors">
+          🔑 Iniciar Sesión / Credenciales
+        </button>
+      </div>
+    </header>
+
+    <!-- Área de Trabajo con Scroll -->
+    <main id="admin-workspace" class="flex-1 overflow-y-auto p-6 sm:p-8">
+      <!-- El contenido del módulo seleccionado se carga dinámicamente -->
+    </main>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODALES INTERACTIVOS PARA FORMULARIOS Y GESTIÓN EN VIVO -->
+  <!-- ========================================================================= -->
+
+  <!-- 1. MODAL LOGIN -->
+  <div id="modal-login" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl border-2 border-gold/40 shadow-2xl max-w-md w-full p-6 text-slate-800">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-4">
+        <h3 class="text-base font-serif font-bold text-navy">Acceso a Redacción · Tejiendo Historias</h3>
+        <button onclick="window.closeModal('modal-login')" class="text-slate-400 hover:text-navy text-lg font-bold">✕</button>
+      </div>
+      <form onsubmit="window.handleLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Correo Electrónico:</label>
+          <input type="email" id="login-email" value="elena.gonzalez@tejiendohistorias.com.py" required class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Contraseña:</label>
+          <input type="password" id="login-password" value="Admin123!" required class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-[11px] text-amber-900 leading-relaxed">
+          <strong>Cuentas de demostración disponibles:</strong><br>
+          • <em>elena.gonzalez@tejiendohistorias.com.py</em> (Editor)<br>
+          • <em>rodrigo.colman@tejiendohistorias.com.py</em> (Periodista)<br>
+          • <em>admin@tejiendohistorias.com.py</em> (Administrador)<br>
+          • Contraseña para todos: <code>Admin123!</code>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="window.closeModal('modal-login')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100">Cancelar</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-navy hover:bg-gold hover:text-navy text-white transition-colors">Iniciar Sesión</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. MODAL REDACTAR / EDITAR NOTICIA -->
+  <div id="modal-noticia" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl border-2 border-gold/40 shadow-2xl max-w-2xl w-full p-6 text-slate-800 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-4">
+        <h3 id="modal-noticia-title" class="text-base font-serif font-bold text-navy">Redactar Noticia o Columna</h3>
+        <button onclick="window.closeModal('modal-noticia')" class="text-slate-400 hover:text-navy text-lg font-bold">✕</button>
+      </div>
+      <form onsubmit="window.handleNoticiaSubmit(event)" class="space-y-4">
+        <input type="hidden" id="noticia-id" value="" />
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Título de la Noticia:*</label>
+          <input type="text" id="noticia-titulo" required placeholder="Ej: Nuevo taller de ñandutí reúne a jóvenes itaugüeños" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Subtítulo / Bajada:*</label>
+          <input type="text" id="noticia-subtitulo" required placeholder="Breve síntesis para la portada..." class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Categoría:*</label>
+            <select id="noticia-categoria" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold">
+              <option value="1">Actualidad</option>
+              <option value="2">Municipalidad</option>
+              <option value="3">Sociedad</option>
+              <option value="4">Educación</option>
+              <option value="5">Seguridad</option>
+              <option value="6">Deportes</option>
+              <option value="7" selected>Cultura</option>
+              <option value="8">Economía</option>
+              <option value="9">Comunidad</option>
+              <option value="10">Tecnología</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Autor Responsable:*</label>
+            <select id="noticia-autor" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold">
+              <option value="1">Lic. Elena González</option>
+              <option value="2">Ing. Rodrigo Colman</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Estado de Publicación:</label>
+            <select id="noticia-estado" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold">
+              <option value="publicado" selected>Publicado</option>
+              <option value="borrador">Borrador (en revisión)</option>
+              <option value="programado">Programado</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-4 pt-5">
+            <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+              <input type="checkbox" id="noticia-destacada" class="rounded accent-gold w-4 h-4" />
+              <span>Destacar en Portada</span>
+            </label>
+            <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+              <input type="checkbox" id="noticia-opinion" class="rounded accent-gold w-4 h-4" />
+              <span>Columna de Opinión</span>
+            </label>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Cuerpo de la Noticia (HTML o Texto):*</label>
+          <textarea id="noticia-cuerpo" rows="5" required placeholder="Escribí aquí el desarrollo de la noticia o columna..." class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold font-sans"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Etiquetas (separadas por coma):</label>
+          <input type="text" id="noticia-etiquetas" placeholder="itauguá, ñandutí, cultura, comunidad" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+          <button type="button" onclick="window.closeModal('modal-noticia')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100">Cancelar</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-gold hover:bg-gold-light text-navy transition-colors shadow">Guardar y Publicar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. MODAL NUEVA / EDITAR RADIO -->
+  <div id="modal-radio" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl border-2 border-gold/40 shadow-2xl max-w-lg w-full p-6 text-slate-800">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-4">
+        <h3 id="modal-radio-title" class="text-base font-serif font-bold text-navy">Registrar Emisora de Radio</h3>
+        <button onclick="window.closeModal('modal-radio')" class="text-slate-400 hover:text-navy text-lg font-bold">✕</button>
+      </div>
+      <form onsubmit="window.handleRadioSubmit(event)" class="space-y-4">
+        <input type="hidden" id="radio-id" value="" />
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Nombre de la Emisora:*</label>
+          <input type="text" id="radio-nombre" required placeholder="Ej: [DEMO] Radio Comunitaria Guaraní" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Frecuencia / Dial:*</label>
+            <input type="text" id="radio-frecuencia" required placeholder="Ej: 104.5 FM" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Tipo de Señal:</label>
+            <select id="radio-tipo" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold">
+              <option value="FM" selected>FM</option>
+              <option value="AM">AM</option>
+              <option value="WEB">ONLINE / WEB</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">URL de Streaming Directo (Icecast/Shoutcast/MP3):*</label>
+          <div class="flex gap-2">
+            <input type="url" id="radio-stream" required placeholder="https://stream.zeno.fm/..." class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold font-mono" />
+            <button type="button" onclick="window.testStream(document.getElementById('radio-stream').value)" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-navy font-bold text-xs rounded-xl shrink-0">Probar</button>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Descripción de la Programación:</label>
+          <textarea id="radio-descripcion" rows="2" placeholder="Noticias, folklore y música paraguaya..." class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold"></textarea>
+        </div>
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+          <button type="button" onclick="window.closeModal('modal-radio')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100">Cancelar</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-navy hover:bg-gold hover:text-navy text-white transition-colors">Guardar Emisora</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. MODAL NUEVO / EDITAR NEGOCIO -->
+  <div id="modal-negocio" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl border-2 border-gold/40 shadow-2xl max-w-lg w-full p-6 text-slate-800">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-4">
+        <h3 id="modal-negocio-title" class="text-base font-serif font-bold text-navy">Registrar Comercio Local</h3>
+        <button onclick="window.closeModal('modal-negocio')" class="text-slate-400 hover:text-navy text-lg font-bold">✕</button>
+      </div>
+      <form onsubmit="window.handleNegocioSubmit(event)" class="space-y-4">
+        <input type="hidden" id="negocio-id" value="" />
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Nombre Comercial:*</label>
+          <input type="text" id="negocio-nombre" required placeholder="Ej: [DEMO] Tienda de Tejidos San Rafael" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Rubro:*</label>
+            <select id="negocio-categoria" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold">
+              <option value="1">Gastronomía</option>
+              <option value="2">Supermercados</option>
+              <option value="3">Tecnología</option>
+              <option value="4">Salud</option>
+              <option value="5">Belleza</option>
+              <option value="6">Moda</option>
+              <option value="7">Servicios profesionales</option>
+              <option value="8">Construcción</option>
+              <option value="9">Transporte</option>
+              <option value="10" selected>Emprendimientos</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Plan Comercial:</label>
+            <select id="negocio-plan" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold">
+              <option value="basico">Básico</option>
+              <option value="destacado" selected>Destacado</option>
+              <option value="premium">Premium</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Número de WhatsApp:*</label>
+            <input type="text" id="negocio-whatsapp" required placeholder="+595 981 123 456" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Teléfono Fijo / Línea:</label>
+            <input type="text" id="negocio-telefono" placeholder="0294-220000" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Dirección en Itauguá:*</label>
+          <input type="text" id="negocio-direccion" required placeholder="Ej: Calle Mcal. Estigarribia c/ Cnel. Martínez" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Breve Descripción Comercial:</label>
+          <textarea id="negocio-descripcion" rows="2" placeholder="Venta de manteles, artesanías y recuerdos hechos a mano..." class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold"></textarea>
+        </div>
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+          <button type="button" onclick="window.closeModal('modal-negocio')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100">Cancelar</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-navy hover:bg-gold hover:text-navy text-white transition-colors">Guardar Negocio</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. MODAL NUEVO / EDITAR EVENTO -->
+  <div id="modal-evento" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl border-2 border-gold/40 shadow-2xl max-w-lg w-full p-6 text-slate-800">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-4">
+        <h3 id="modal-evento-title" class="text-base font-serif font-bold text-navy">Agendar Evento Ciudadano</h3>
+        <button onclick="window.closeModal('modal-evento')" class="text-slate-400 hover:text-navy text-lg font-bold">✕</button>
+      </div>
+      <form onsubmit="window.handleEventoSubmit(event)" class="space-y-4">
+        <input type="hidden" id="evento-id" value="" />
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Nombre del Evento:*</label>
+          <input type="text" id="evento-nombre" required placeholder="Ej: [DEMO] Festival de Música Folklórica de Itauguá" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Fecha:*</label>
+            <input type="date" id="evento-fecha" required class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Hora:</label>
+            <input type="time" id="evento-hora" value="19:00" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Categoría:*</label>
+            <select id="evento-categoria" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold">
+              <option value="1" selected>Cultura</option>
+              <option value="2">Música</option>
+              <option value="3">Deportes</option>
+              <option value="4">Educación</option>
+              <option value="5">Actividades municipales</option>
+              <option value="6">Ferias</option>
+              <option value="7">Eventos religiosos</option>
+              <option value="8">Actividades comunitarias</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Lugar:*</label>
+            <input type="text" id="evento-lugar" required placeholder="Plaza de los Héroes" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Organizador:*</label>
+          <input type="text" id="evento-organizador" required placeholder="Comisión Cultural de Itauguá" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Descripción del Evento:*</label>
+          <textarea id="evento-descripcion" rows="2" required placeholder="Detalles de la convocatoria..." class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold"></textarea>
+        </div>
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+          <button type="button" onclick="window.closeModal('modal-evento')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100">Cancelar</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-navy hover:bg-gold hover:text-navy text-white transition-colors">Guardar Evento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6. MODAL EDITAR PERFIL AUTOR (ELENA O RODRIGO) -->
+  <div id="modal-autor" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl border-2 border-gold/40 shadow-2xl max-w-lg w-full p-6 text-slate-800">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-4">
+        <h3 id="modal-autor-title" class="text-base font-serif font-bold text-navy">Editar Perfil de Autor</h3>
+        <button onclick="window.closeModal('modal-autor')" class="text-slate-400 hover:text-navy text-lg font-bold">✕</button>
+      </div>
+      <form onsubmit="window.handleAutorSubmit(event)" class="space-y-4">
+        <input type="hidden" id="autor-id" value="" />
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Nombre Completo:*</label>
+          <input type="text" id="autor-nombre" required class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Título Profesional:*</label>
+          <input type="text" id="autor-titulo" required class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Biografía Profesional:*</label>
+          <textarea id="autor-biografia" rows="4" required class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-gold"></textarea>
+        </div>
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+          <button type="button" onclick="window.closeModal('modal-autor')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100">Cancelar</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-navy hover:bg-gold hover:text-navy text-white transition-colors">Actualizar Perfil</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST DE NOTIFICACIÓN FLOTANTE -->
+  <div id="admin-toast" class="hidden fixed bottom-6 right-6 z-50 bg-navy border-2 border-gold text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold">
+    <span id="admin-toast-icon">✅</span>
+    <span id="admin-toast-msg">Operación completada con éxito.</span>
+  </div>
+
+  <!-- SCRIPT DE GESTIÓN DEL PANEL ADMINISTRATIVO -->
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script>
+    // Notificaciones Toast
+    window.showToast = function(msg, icon = '✅') {
+      const toast = document.getElementById('admin-toast');
+      const msgEl = document.getElementById('admin-toast-msg');
+      const iconEl = document.getElementById('admin-toast-icon');
+      if (toast && msgEl) {
+        msgEl.textContent = msg;
+        if (iconEl) iconEl.textContent = icon;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 4000);
+      }
+    };
+
+    // Funciones de Apertura y Cierre de Modales
+    window.openModal = function(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+    };
+
+    window.closeModal = function(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    };
+
+    window.openLoginModal = function() {
+      window.openModal('modal-login');
+    };
+
+    window.openNoticiaModal = function() {
+      document.getElementById('modal-noticia-title').textContent = "Redactar Noticia o Columna";
+      document.getElementById('noticia-id').value = "";
+      document.getElementById('noticia-titulo').value = "";
+      document.getElementById('noticia-subtitulo').value = "";
+      document.getElementById('noticia-cuerpo').value = "";
+      document.getElementById('noticia-etiquetas').value = "itauguá, actualidad";
+      document.getElementById('noticia-destacada').checked = false;
+      document.getElementById('noticia-opinion').checked = false;
+      window.openModal('modal-noticia');
+    };
+
+    window.editNoticia = function(id) {
+      const n = window.TH_STORE.data.noticias.find(x => x.id === id);
+      if (!n) return;
+      document.getElementById('modal-noticia-title').textContent = "Editar Noticia #" + id;
+      document.getElementById('noticia-id').value = n.id;
+      document.getElementById('noticia-titulo').value = n.titulo;
+      document.getElementById('noticia-subtitulo').value = n.subtitulo || '';
+      document.getElementById('noticia-categoria').value = n.categoria_id;
+      document.getElementById('noticia-autor').value = n.autor_id;
+      document.getElementById('noticia-cuerpo').value = n.cuerpo.replace(/<[^>]*>?/gm, '');
+      document.getElementById('noticia-estado').value = n.estado || 'publicado';
+      document.getElementById('noticia-destacada').checked = !!n.es_destacada;
+      document.getElementById('noticia-opinion').checked = !!n.es_columna_opinion;
+      window.openModal('modal-noticia');
+    };
+
+    window.openRadioModal = function() {
+      document.getElementById('modal-radio-title').textContent = "Registrar Emisora de Radio";
+      document.getElementById('radio-id').value = "";
+      document.getElementById('radio-nombre').value = "";
+      document.getElementById('radio-frecuencia').value = "";
+      document.getElementById('radio-stream').value = "https://stream.zeno.fm/f3wvbbqmdg8uv";
+      document.getElementById('radio-descripcion').value = "";
+      window.openModal('modal-radio');
+    };
+
+    window.editRadio = function(id) {
+      const r = window.TH_STORE.data.radios.find(x => x.id === id);
+      if (!r) return;
+      document.getElementById('modal-radio-title').textContent = "Editar Emisora #" + id;
+      document.getElementById('radio-id').value = r.id;
+      document.getElementById('radio-nombre').value = r.nombre;
+      document.getElementById('radio-frecuencia').value = r.frecuencia;
+      document.getElementById('radio-tipo').value = r.tipo || 'FM';
+      document.getElementById('radio-stream').value = r.stream_url;
+      document.getElementById('radio-descripcion').value = r.descripcion || '';
+      window.openModal('modal-radio');
+    };
+
+    window.openNegocioModal = function() {
+      document.getElementById('modal-negocio-title').textContent = "Registrar Comercio Local";
+      document.getElementById('negocio-id').value = "";
+      document.getElementById('negocio-nombre').value = "";
+      document.getElementById('negocio-whatsapp').value = "+595 981 ";
+      document.getElementById('negocio-direccion').value = "Itauguá";
+      document.getElementById('negocio-descripcion').value = "";
+      window.openModal('modal-negocio');
+    };
+
+    window.editNegocio = function(id) {
+      const b = window.TH_STORE.data.negocios.find(x => x.id === id);
+      if (!b) return;
+      document.getElementById('modal-negocio-title').textContent = "Editar Negocio #" + id;
+      document.getElementById('negocio-id').value = b.id;
+      document.getElementById('negocio-nombre').value = b.nombre_comercial;
+      document.getElementById('negocio-categoria').value = b.categoria_id;
+      document.getElementById('negocio-whatsapp').value = b.whatsapp || '';
+      document.getElementById('negocio-direccion').value = b.direccion || 'Itauguá';
+      document.getElementById('negocio-descripcion').value = b.descripcion || '';
+      document.getElementById('negocio-plan').value = b.plan_comercial || 'destacado';
+      window.openModal('modal-negocio');
+    };
+
+    window.openEventoModal = function() {
+      document.getElementById('modal-evento-title').textContent = "Agendar Evento Ciudadano";
+      document.getElementById('evento-id').value = "";
+      document.getElementById('evento-nombre').value = "";
+      document.getElementById('evento-fecha').value = new Date().toISOString().split('T')[0];
+      document.getElementById('evento-lugar').value = "Plaza de los Héroes, Itauguá";
+      document.getElementById('evento-organizador').value = "Comisión Cultural de Itauguá";
+      document.getElementById('evento-descripcion').value = "";
+      window.openModal('modal-evento');
+    };
+
+    window.editEvento = function(id) {
+      const e = window.TH_STORE.data.eventos.find(x => x.id === id);
+      if (!e) return;
+      document.getElementById('modal-evento-title').textContent = "Editar Evento #" + id;
+      document.getElementById('evento-id').value = e.id;
+      document.getElementById('evento-nombre').value = e.nombre;
+      document.getElementById('evento-fecha').value = e.fecha;
+      document.getElementById('evento-hora').value = e.hora || '19:00';
+      document.getElementById('evento-categoria').value = e.categoria_id;
+      document.getElementById('evento-lugar').value = e.lugar;
+      document.getElementById('evento-organizador').value = e.organizador || '';
+      document.getElementById('evento-descripcion').value = e.descripcion || '';
+      window.openModal('modal-evento');
+    };
+
+    window.editAutor = function(id) {
+      const a = window.TH_STORE.data.autores.find(x => x.id === id);
+      if (!a) return;
+      document.getElementById('modal-autor-title').textContent = "Editar Perfil: " + a.nombre;
+      document.getElementById('autor-id').value = a.id;
+      document.getElementById('autor-nombre').value = a.nombre;
+      document.getElementById('autor-titulo').value = a.titulo_profesional;
+      document.getElementById('autor-biografia').value = a.biografia;
+      window.openModal('modal-autor');
+    };
+
+    // --- CONTROLADORES DE ENVÍO DE FORMULARIOS A LA API ---
+
+    window.handleLoginSubmit = async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const pass = document.getElementById('login-password').value;
+
+      if (window.location.protocol.startsWith('http')) {
+        const res = await window.TH_API.login(email, pass);
+        if (res && res.success) {
+          localStorage.setItem('th_token', res.token);
+          window.showToast("Sesión iniciada como " + res.user.nombre_completo);
+          window.closeModal('modal-login');
+          window.switchRole(res.user.rol.toLowerCase());
+        } else {
+          alert("Error de autenticación: " + (res ? res.mensaje : "Verifique sus credenciales"));
+        }
+      } else {
+        window.showToast("Sesión simulada correctamente en modo local.");
+        window.closeModal('modal-login');
+      }
+    };
+
+    window.handleNoticiaSubmit = async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('noticia-id').value;
+      const data = {
+        titulo: document.getElementById('noticia-titulo').value,
+        subtitulo: document.getElementById('noticia-subtitulo').value,
+        categoria_id: parseInt(document.getElementById('noticia-categoria').value),
+        autor_id: parseInt(document.getElementById('noticia-autor').value),
+        cuerpo: '<p>' + document.getElementById('noticia-cuerpo').value + '</p>',
+        estado: document.getElementById('noticia-estado').value,
+        es_destacada: document.getElementById('noticia-destacada').checked ? 1 : 0,
+        es_columna_opinion: document.getElementById('noticia-opinion').checked ? 1 : 0,
+        etiquetas: document.getElementById('noticia-etiquetas').value
+      };
+
+      if (window.location.protocol.startsWith('http')) {
+        const res = id ? await window.TH_API.request(`noticias/${id}`, { method: 'PUT', body: JSON.stringify(data) })
+                       : await window.TH_API.createNoticia(data);
+        if (res && res.success) {
+          window.showToast(id ? "Noticia actualizada con éxito." : "Noticia publicada con éxito.");
+          await window.TH_API.syncStoreWithDatabase();
+          window.loadModule('noticias');
+          window.closeModal('modal-noticia');
+        } else {
+          alert("Error: " + (res ? res.mensaje : "No se pudo guardar la noticia"));
+        }
+      } else {
+        // Modo local
+        if (id) {
+          const item = window.TH_STORE.data.noticias.find(x => x.id === parseInt(id));
+          if (item) Object.assign(item, data);
+        } else {
+          const newId = window.TH_STORE.data.noticias.length + 1;
+          window.TH_STORE.data.noticias.unshift({
+            id: newId,
+            ...data,
+            slug: 'noticia-demo-' + newId,
+            categoria_nombre: 'Cultura',
+            autor_nombre: data.autor_id === 1 ? 'Lic. Elena González' : 'Ing. Rodrigo Colman',
+            autor_foto: data.autor_id === 1 ? 'assets/img/author-elena.svg' : 'assets/img/author-rodrigo.svg',
+            fecha_publicacion: new Date().toISOString().replace('T', ' ').substring(0, 16),
+            vistas: 1
+          });
+        }
+        window.showToast("Noticia guardada en almacén.");
+        window.loadModule('noticias');
+        window.closeModal('modal-noticia');
+      }
+    };
+
+    window.handleRadioSubmit = async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('radio-id').value;
+      const data = {
+        nombre: document.getElementById('radio-nombre').value,
+        frecuencia: document.getElementById('radio-frecuencia').value,
+        tipo: document.getElementById('radio-tipo').value,
+        stream_url: document.getElementById('radio-stream').value,
+        descripcion: document.getElementById('radio-descripcion').value
+      };
+
+      if (window.location.protocol.startsWith('http')) {
+        const res = id ? await window.TH_API.request(`radios/${id}`, { method: 'PUT', body: JSON.stringify(data) })
+                       : await window.TH_API.createRadio(data);
+        if (res && res.success) {
+          window.showToast("Emisora de radio guardada con éxito.");
+          await window.TH_API.syncStoreWithDatabase();
+          window.loadModule('radios');
+          window.closeModal('modal-radio');
+        }
+      } else {
+        if (id) {
+          const item = window.TH_STORE.data.radios.find(x => x.id === parseInt(id));
+          if (item) Object.assign(item, data);
+        } else {
+          window.TH_STORE.data.radios.push({
+            id: window.TH_STORE.data.radios.length + 1,
+            ...data,
+            logo_url: 'assets/img/demo-radio-1.svg',
+            activo: 1,
+            oyentes_estimados: 1100
+          });
+        }
+        window.showToast("Emisora guardada en almacén local.");
+        window.loadModule('radios');
+        window.closeModal('modal-radio');
+      }
+    };
+
+    window.handleNegocioSubmit = async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('negocio-id').value;
+      const data = {
+        nombre_comercial: document.getElementById('negocio-nombre').value,
+        categoria_id: parseInt(document.getElementById('negocio-categoria').value),
+        whatsapp: document.getElementById('negocio-whatsapp').value,
+        direccion: document.getElementById('negocio-direccion').value,
+        descripcion: document.getElementById('negocio-descripcion').value,
+        plan_comercial: document.getElementById('negocio-plan').value
+      };
+
+      if (window.location.protocol.startsWith('http')) {
+        const res = id ? await window.TH_API.request(`negocios/${id}`, { method: 'PUT', body: JSON.stringify(data) })
+                       : await window.TH_API.createNegocio(data);
+        if (res && res.success) {
+          window.showToast("Comercio guardado con éxito.");
+          await window.TH_API.syncStoreWithDatabase();
+          window.loadModule('negocios');
+          window.closeModal('modal-negocio');
+        }
+      } else {
+        if (id) {
+          const item = window.TH_STORE.data.negocios.find(x => x.id === parseInt(id));
+          if (item) Object.assign(item, data);
+        } else {
+          window.TH_STORE.data.negocios.push({
+            id: window.TH_STORE.data.negocios.length + 1,
+            ...data,
+            categoria: 'Emprendimientos',
+            logo_url: 'assets/img/nanduti-symbol.svg',
+            es_destacado: 1
+          });
+        }
+        window.showToast("Comercio guardado en almacén local.");
+        window.loadModule('negocios');
+        window.closeModal('modal-negocio');
+      }
+    };
+
+    window.handleEventoSubmit = async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('evento-id').value;
+      const data = {
+        nombre: document.getElementById('evento-nombre').value,
+        fecha: document.getElementById('evento-fecha').value,
+        hora: document.getElementById('evento-hora').value,
+        categoria_id: parseInt(document.getElementById('evento-categoria').value),
+        lugar: document.getElementById('evento-lugar').value,
+        organizador: document.getElementById('evento-organizador').value,
+        descripcion: document.getElementById('evento-descripcion').value
+      };
+
+      if (window.location.protocol.startsWith('http')) {
+        const res = id ? await window.TH_API.request(`eventos/${id}`, { method: 'PUT', body: JSON.stringify(data) })
+                       : await window.TH_API.request('eventos', { method: 'POST', body: JSON.stringify(data) });
+        if (res && res.success) {
+          window.showToast("Evento agendado con éxito.");
+          await window.TH_API.syncStoreWithDatabase();
+          window.loadModule('eventos');
+          window.closeModal('modal-evento');
+        }
+      } else {
+        if (id) {
+          const item = window.TH_STORE.data.eventos.find(x => x.id === parseInt(id));
+          if (item) Object.assign(item, data);
+        } else {
+          window.TH_STORE.data.eventos.push({
+            id: window.TH_STORE.data.eventos.length + 1,
+            ...data,
+            categoria: 'Cultura',
+            imagen_url: 'assets/img/demo-nanduti-noticia.svg',
+            estado: 'proximo'
+          });
+        }
+        window.showToast("Evento guardado en almacén.");
+        window.loadModule('eventos');
+        window.closeModal('modal-evento');
+      }
+    };
+
+    window.handleAutorSubmit = async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('autor-id').value;
+      const data = {
+        nombre: document.getElementById('autor-nombre').value,
+        titulo_profesional: document.getElementById('autor-titulo').value,
+        biografia: document.getElementById('autor-biografia').value
+      };
+
+      if (window.location.protocol.startsWith('http')) {
+        const res = await window.TH_API.request(`autores/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+        if (res && res.success) {
+          window.showToast("Perfil de autor actualizado.");
+          await window.TH_API.syncStoreWithDatabase();
+          window.loadModule('autores');
+          window.closeModal('modal-autor');
+        }
+      } else {
+        const item = window.TH_STORE.data.autores.find(x => x.id === parseInt(id));
+        if (item) Object.assign(item, data);
+        window.showToast("Perfil de autor actualizado localmente.");
+        window.loadModule('autores');
+        window.closeModal('modal-autor');
+      }
+    };
+
+    // --- DEFINICIÓN DE VISTAS DE MÓDULOS DEL PANEL ---
+
+    const AdminModules = {
+      dashboard: () => {
+        const store = window.TH_STORE;
+        return `
+          <!-- Estadísticas Rápidas (KPIs) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Noticias Publicadas</span>
+                <span class="text-2xl font-bold font-serif text-navy mt-1 block">${store.data.noticias.length}</span>
+                <span class="text-[11px] text-emerald-600 font-semibold">Base de datos sincronizada</span>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-xl">📰</div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Radios Registradas</span>
+                <span class="text-2xl font-bold font-serif text-navy mt-1 block">${store.data.radios.length}</span>
+                <span class="text-[11px] text-emerald-600 font-semibold">100% streams verificados</span>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center text-xl">📻</div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Negocios Locales</span>
+                <span class="text-2xl font-bold font-serif text-navy mt-1 block">${store.data.negocios.length}</span>
+                <span class="text-[11px] text-gold-dark font-semibold">Comercios de Itauguá</span>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-xl">🏪</div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Pautas Publicitarias</span>
+                <span class="text-2xl font-bold font-serif text-navy mt-1 block">${store.data.anuncios.length}</span>
+                <span class="text-[11px] text-indigo-600 font-semibold">Tracking de impresiones activo</span>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center text-xl">📢</div>
+            </div>
+          </div>
+
+          <!-- Publicaciones Recientes y Accesos Rápidos -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+                <h3 class="text-base font-bold text-navy font-serif">Últimas Publicaciones en Redacción</h3>
+                <button onclick="window.loadModule('noticias')" class="text-xs font-bold text-gold hover:text-navy">Gestionar todas →</button>
+              </div>
+
+              <div class="divide-y divide-slate-100">
+                ${store.data.noticias.map(n => `
+                  <div class="py-3.5 flex items-center justify-between gap-4">
+                    <div class="min-w-0">
+                      <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-600 mr-2">${n.categoria_nombre}</span>
+                      <h4 class="text-sm font-semibold text-navy inline truncate">${n.titulo}</h4>
+                      <p class="text-xs text-slate-400 mt-0.5">Por ${n.autor_nombre} · ${n.fecha_publicacion}</p>
+                    </div>
+                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
+                      ${n.estado || 'Publicado'}
+                    </span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="lg:col-span-4 space-y-6">
+              <div class="bg-navy text-white rounded-2xl p-6 border border-gold/30">
+                <h3 class="text-sm font-serif font-bold text-gold-light mb-2">Acciones Rápidas</h3>
+                <p class="text-xs text-slate-300 mb-4">Herramientas inmediatas para el equipo editorial.</p>
+                <div class="space-y-2">
+                  <button onclick="window.openNoticiaModal()" class="w-full text-left px-3 py-2 rounded-xl bg-deep hover:bg-gold hover:text-navy text-xs font-bold transition-colors flex items-center justify-between">
+                    <span>+ Redactar nueva noticia</span>
+                    <span>→</span>
+                  </button>
+                  <button onclick="window.openRadioModal()" class="w-full text-left px-3 py-2 rounded-xl bg-deep hover:bg-gold hover:text-navy text-xs font-bold transition-colors flex items-center justify-between">
+                    <span>+ Registrar radio emisora</span>
+                    <span>→</span>
+                  </button>
+                  <button onclick="window.openNegocioModal()" class="w-full text-left px-3 py-2 rounded-xl bg-deep hover:bg-gold hover:text-navy text-xs font-bold transition-colors flex items-center justify-between">
+                    <span>+ Registrar comercio local</span>
+                    <span>→</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-2xl p-6 border border-slate-200">
+                <h3 class="text-sm font-bold text-navy mb-2">Estado del Servidor</h3>
+                <div class="text-xs text-slate-600 space-y-1.5">
+                  <p>🔹 <strong>Motor DB:</strong> SQLite 3 (PDO activo)</p>
+                  <p>🔹 <strong>PHP Runtime:</strong> 8.2.12 CLI / ZTS</p>
+                  <p>🔹 <strong>Almacenamiento:</strong> api/uploads/ habilitado</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      },
+
+      noticias: () => {
+        const store = window.TH_STORE;
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <h2 class="text-xl font-bold font-serif text-navy">Gestión de Noticias y Artículos</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Publicar, editar, programar o guardar borradores informativos.</p>
+              </div>
+              <button onclick="window.openNoticiaModal()" class="px-4 py-2 rounded-xl bg-gold hover:bg-gold-light text-navy text-xs font-bold shadow transition-colors">
+                + Redactar Noticia
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-50 text-slate-400 uppercase text-[10px] tracking-wider border-y border-slate-200">
+                  <tr>
+                    <th class="py-3 px-4">Título</th>
+                    <th class="py-3 px-4">Categoría</th>
+                    <th class="py-3 px-4">Autor</th>
+                    <th class="py-3 px-4">Fecha</th>
+                    <th class="py-3 px-4">Estado</th>
+                    <th class="py-3 px-4 text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  ${store.data.noticias.map(n => `
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-3 px-4 font-semibold text-navy max-w-xs truncate">${n.titulo}</td>
+                      <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">${n.categoria_nombre}</span></td>
+                      <td class="py-3 px-4">${n.autor_nombre}</td>
+                      <td class="py-3 px-4 text-slate-400">${n.fecha_publicacion.split(' ')[0]}</td>
+                      <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">${n.estado || 'Publicado'}</span></td>
+                      <td class="py-3 px-4 text-right space-x-2">
+                        <button onclick="window.editNoticia(${n.id})" class="text-navy hover:text-gold font-bold">Editar</button>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      },
+
+      autores: () => {
+        const store = window.TH_STORE;
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mb-6">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h2 class="text-xl font-bold font-serif text-navy">Perfiles de Autores y Columnistas</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Gestión de fotografías, profesiones y biografías editables.</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              ${store.data.autores.map(a => `
+                <div class="border border-slate-200 rounded-2xl p-5 hover:border-gold transition-colors">
+                  <div class="flex items-center gap-4 mb-4">
+                    <img src="${a.foto_url}" alt="${a.nombre}" class="w-16 h-16 rounded-full border-2 border-gold object-cover" />
+                    <div>
+                      <h3 class="text-base font-bold text-navy font-serif">${a.nombre}</h3>
+                      <p class="text-xs text-slate-500 font-medium">${a.titulo_profesional}</p>
+                      <span class="text-[10px] text-gold-dark font-bold">${a.espacio_nombre}</span>
+                    </div>
+                  </div>
+                  <p class="text-xs text-slate-600 mb-4 bg-slate-50 p-3 rounded-xl italic">"${a.biografia}"</p>
+                  <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                    <span class="text-xs text-slate-400">${a.articulos_publicados} columnas registradas</span>
+                    <button onclick="window.editAutor(${a.id})" class="px-3 py-1.5 rounded-lg bg-navy hover:bg-gold hover:text-navy text-white text-xs font-bold transition-colors">
+                      Editar Perfil
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      },
+
+      radios: () => {
+        const store = window.TH_STORE;
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <h2 class="text-xl font-bold font-serif text-navy">Gestión de Radios de Itauguá</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Registro de nuevas emisoras sin tocar código, con prueba de URL de streaming.</p>
+              </div>
+              <button onclick="window.openRadioModal()" class="px-4 py-2 rounded-xl bg-gold hover:bg-gold-light text-navy text-xs font-bold shadow transition-colors">
+                + Nueva Emisora
+              </button>
+            </div>
+
+            <div class="space-y-4">
+              ${store.data.radios.map(r => `
+                <div class="border border-slate-200 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div class="flex items-center gap-4">
+                    <img src="${r.logo_url}" alt="${r.nombre}" class="w-12 h-12 rounded-xl border border-gold/40 p-1 bg-slate-50" />
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <h3 class="text-sm font-bold text-navy">${r.nombre}</h3>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-navy text-gold-light">${r.frecuencia}</span>
+                      </div>
+                      <p class="text-xs text-slate-500 font-mono mt-0.5 truncate max-w-sm">${r.stream_url}</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button onclick="window.testStream('${r.stream_url}');" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold">
+                      Probar Stream
+                    </button>
+                    <button onclick="window.editRadio(${r.id})" class="px-3 py-1.5 rounded-lg bg-navy hover:bg-gold hover:text-navy text-white text-xs font-bold transition-colors">
+                      Editar
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      },
+
+      negocios: () => {
+        const store = window.TH_STORE;
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <h2 class="text-xl font-bold font-serif text-navy">Directorio de Negocios y Comercios</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Gestión de comercios, categorías, botones de WhatsApp y planes comerciales.</p>
+              </div>
+              <button onclick="window.openNegocioModal()" class="px-4 py-2 rounded-xl bg-gold hover:bg-gold-light text-navy text-xs font-bold shadow transition-colors">
+                + Nuevo Negocio
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-50 text-slate-400 uppercase text-[10px] tracking-wider border-y border-slate-200">
+                  <tr>
+                    <th class="py-3 px-4">Comercio</th>
+                    <th class="py-3 px-4">Rubro</th>
+                    <th class="py-3 px-4">WhatsApp</th>
+                    <th class="py-3 px-4">Plan</th>
+                    <th class="py-3 px-4 text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  ${store.data.negocios.map(b => `
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-3 px-4 font-semibold text-navy">${b.nombre_comercial}</td>
+                      <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-amber-50 text-amber-900 font-bold">${b.categoria}</span></td>
+                      <td class="py-3 px-4 text-emerald-700 font-semibold">${b.whatsapp}</td>
+                      <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold uppercase text-[10px]">${b.plan_comercial}</span></td>
+                      <td class="py-3 px-4 text-right space-x-2">
+                        <button onclick="window.editNegocio(${b.id})" class="text-navy hover:text-gold font-bold">Editar</button>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      },
+
+      publicidad: () => {
+        const store = window.TH_STORE;
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <h2 class="text-xl font-bold font-serif text-navy">Módulo Comercial & Pautas Publicitarias</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Control de banners, impresiones, clics y vencimiento de campañas.</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              ${store.data.anuncios.map(a => `
+                <div class="border border-slate-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div class="flex items-center gap-4">
+                    <img src="${a.imagen_url}" alt="" class="w-20 h-10 object-cover rounded-lg border border-slate-200 bg-slate-900" />
+                    <div>
+                      <h4 class="text-xs font-bold text-navy">${a.anunciante}</h4>
+                      <p class="text-[11px] text-slate-500">Ubicación: <strong>${a.espacio}</strong></p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 text-xs">
+                    <span class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded">Activo</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      },
+
+      eventos: () => {
+        const store = window.TH_STORE;
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <h2 class="text-xl font-bold font-serif text-navy">Agenda de Eventos de Itauguá</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Programación y archivo automático de actividades ciudadanas.</p>
+              </div>
+              <button onclick="window.openEventoModal()" class="px-4 py-2 rounded-xl bg-gold hover:bg-gold-light text-navy text-xs font-bold shadow transition-colors">
+                + Nuevo Evento
+              </button>
+            </div>
+
+            <div class="space-y-4">
+              ${store.data.eventos.map(e => `
+                <div class="border border-slate-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <span class="text-[10px] font-bold text-gold uppercase tracking-wider block">${e.categoria}</span>
+                    <h3 class="text-sm font-bold text-navy">${e.nombre}</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">📅 ${e.fecha} · ⏰ ${e.hora} · 📍 ${e.lugar}</p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button onclick="window.editEvento(${e.id})" class="px-3 py-1.5 rounded-lg bg-navy hover:bg-gold hover:text-navy text-white text-xs font-bold transition-colors">
+                      Editar
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+    };
+
+    // Cambio de Módulo Activo
+    window.loadModule = function(moduleName) {
+      const container = document.getElementById('admin-workspace');
+      const titleEl = document.getElementById('module-title');
+      
+      document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+        const tab = btn.getAttribute('data-tab');
+        if (tab === moduleName) {
+          btn.classList.add('bg-gold', 'text-navy', 'font-bold', 'shadow-sm');
+          btn.classList.remove('text-slate-300');
+        } else {
+          btn.classList.remove('bg-gold', 'text-navy', 'font-bold', 'shadow-sm');
+          btn.classList.add('text-slate-300');
+        }
+      });
+
+      const titles = {
+        'dashboard': 'Dashboard General',
+        'noticias': 'Módulo de Noticias y Contenidos',
+        'autores': 'Módulo de Autores (Elena & Rodrigo)',
+        'radios': 'Módulo de Radios de Itauguá',
+        'negocios': 'Módulo de Directorio Comercial',
+        'publicidad': 'Módulo de Publicidad y Pautas',
+        'eventos': 'Módulo de Agenda de Eventos'
+      };
+
+      if (titleEl) titleEl.textContent = titles[moduleName] || 'Panel Administrativo';
+
+      const renderFn = AdminModules[moduleName] || AdminModules.dashboard;
+      if (container) container.innerHTML = renderFn();
+    };
+
+    // Simulación de Roles de Usuario
+    window.switchRole = function(role) {
+      const nameEl = document.getElementById('user-name');
+      const roleEl = document.getElementById('user-role');
+      const avatarEl = document.getElementById('user-avatar');
+
+      const profiles = {
+        'admin': { name: 'Administrador General', role: 'Rol: Administrador Total', avatar: 'assets/img/nanduti-symbol.svg' },
+        'editor': { name: 'Lic. Elena González', role: 'Rol: Editor / Redactor', avatar: 'assets/img/author-elena.svg' },
+        'periodista': { name: 'Ing. Rodrigo Colman', role: 'Rol: Periodista / Columnista', avatar: 'assets/img/author-rodrigo.svg' },
+        'comercial': { name: 'Agente Comercial', role: 'Rol: Gestión Comercial', avatar: 'assets/img/demo-banner-side.svg' }
+      };
+
+      const p = profiles[role] || profiles.admin;
+      if (nameEl) nameEl.textContent = p.name;
+      if (roleEl) roleEl.textContent = p.role;
+      if (avatarEl) avatarEl.src = p.avatar;
+    };
+
+    // Probar URL de Streaming
+    window.testStream = async function(url) {
+      if (window.TH_API && window.location.protocol.startsWith('http')) {
+        const res = await window.TH_API.testRadioStream(url);
+        if (res && res.success) {
+          alert('✅ Prueba de streaming exitosa:\n' + res.mensaje);
+        } else {
+          alert('⚠️ Aviso de streaming:\n' + (res ? res.error : 'No se pudo conectar'));
+        }
+      } else {
+        alert('Probando stream (modo local): URL con sintaxis válida:\n' + url);
+      }
+    };
+
+    // Inicializar en el Dashboard
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.TH_API && typeof window.TH_API.syncStoreWithDatabase === 'function') {
+        window.TH_API.syncStoreWithDatabase().finally(() => {
+          window.loadModule('dashboard');
+        });
+      } else {
+        window.loadModule('dashboard');
+      }
+    });
+  </script>
+</body>
+</html>

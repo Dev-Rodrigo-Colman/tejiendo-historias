@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" fill="none">
+  <rect width="200" height="200" rx="100" fill="#0B1F3A" />
+  <circle cx="100" cy="100" r="92" stroke="#C8A04B" stroke-width="3" stroke-dasharray="4, 4" />
+  <circle cx="100" cy="80" r="38" fill="#E5CC86" />
+  <path d="M 40 180 C 40 135, 70 120, 100 120 C 130 120, 160 135, 160 180 Z" fill="#E5CC86" />
+  <circle cx="100" cy="100" r="95" stroke="#0B1F3A" stroke-width="4" />
+  <text x="100" y="190" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="10" font-weight="bold">LIC. ELENA GONZÁLEZ</text>
+</svg>
+

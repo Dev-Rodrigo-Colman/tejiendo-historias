@@ -1,0 +1,5 @@
+# Prevenir ejecución de scripts en la carpeta de uploads por seguridad
+<FilesMatch "\.(php|php5|php7|php8|phtml|pl|py|cgi|sh)$">
+    Require all denied
+</FilesMatch>
+Options -Indexes

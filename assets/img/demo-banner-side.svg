@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 300" width="350" height="300" fill="none">
+  <rect width="350" height="300" fill="#102A4C" />
+  <rect x="6" y="6" width="338" height="288" stroke="#C8A04B" stroke-width="1.5" stroke-dasharray="4, 4" />
+  <circle cx="175" cy="110" r="50" stroke="#E5CC86" stroke-width="1.5" stroke-dasharray="3, 3" />
+  <text x="175" y="115" text-anchor="middle" fill="#C8A04B" font-family="'Cinzel', serif" font-size="28" font-weight="bold">TH</text>
+  <text x="175" y="200" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold">ANUNCIÁ EN ESTE ESPACIO</text>
+  <text x="175" y="230" text-anchor="middle" fill="#E5CC86" font-family="sans-serif" font-size="12">Llegá a miles de lectores itaugüeños</text>
+</svg>
+
